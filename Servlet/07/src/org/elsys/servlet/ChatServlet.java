@@ -16,6 +16,7 @@ import org.elsys.data.Message;
 public class ChatServlet extends HttpServlet {
 	
 	private List<Message> messages;
+	private static final int messagesToShow = 20;
 	
 	private static final long serialVersionUID = 1L;
        
@@ -27,7 +28,9 @@ public class ChatServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		request.setAttribute("messages", Message.formatHTML(messages));
+		request.setAttribute("messages", Message.formatHTML(
+				messages.subList(Math.max(messages.size() - messagesToShow, 0), messages.size())
+			));
 		request.setAttribute("location", request.getRequestURL());
 		request.getRequestDispatcher("/WEB-INF/chat.jsp").forward(request, response);
 	}
