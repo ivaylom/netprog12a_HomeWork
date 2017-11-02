@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/KeyValueDB")
 public class KeyValueDB {
+	//accessed with ...:8081/KeyValueDB/rest/KeyValueDB
 
 	private static HashMap<String, String> db = new HashMap<String, String>();
 	
@@ -26,18 +27,18 @@ public class KeyValueDB {
 	public String getData() {
 		String output = "";
 		for (HashMap.Entry<String, String> e : db.entrySet()) {
-			output += e.getKey() + ": " + e.getValue() + "\n";
+			output += String.format("%s: %s\n", e.getKey(), e.getValue());
 		}
 		return output;
 	}
 	
 	@PUT
 	public void setData(@QueryParam("key") String key, @QueryParam("value") String value) {
-		KeyValueDB.db.put(key, value);
+		db.put(key, value);
 	}
 	
 	@DELETE
 	public void removeData(@QueryParam("key") String key) {
-		KeyValueDB.db.remove(key);
+		db.remove(key);
 	}
 }
