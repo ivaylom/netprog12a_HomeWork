@@ -1,4 +1,4 @@
-package org.elsys.test;
+package org.elsys.netprog.chat;
 
 public class Message {
 
@@ -11,6 +11,6 @@ public class Message {
 	}
 	
 	public String getMessage() {
-		return name + ": " + message;
+		return String.format("%s: %s", name, message);
 	}
 }
