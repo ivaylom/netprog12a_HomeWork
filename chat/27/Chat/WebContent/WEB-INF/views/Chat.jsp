@@ -1,4 +1,3 @@
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -10,10 +9,10 @@
 	</head>
 	<body>
 		<div id="messages"></div>
-			<input type="text" name="name" placeholder="Име" />
-			<input type="text" name="message" placeholder="Съобщение" />
-			<button onclick="postMessage()">Изпрати</button><br>
-			<button onclick="getMessages()">Презареди</button>
+		<input type="text" name="name" placeholder="Име" />
+		<input type="text" name="message" placeholder="Съобщение" />
+		<button onclick="postMessage()">Изпрати</button><br>
+		<button onclick="getMessages()">Презареди</button>
 		<script>
 			function renderMessage(name, message) {
 				return "<p>" +
