@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function() {
+		//send help
+        var _view = `<div style="position:relative;"><div style="height:80vh;overflow:auto;"><table class="jokesContainer" height="500px"><tr class="jokeBox delete"><td class="joke">__joke__</td><td><button class='removeButton'>Remove</button></td></tr></table></div></div><button id="refresh">MORE SHOW ME MORE FUNNIES</button>`;
+        var _currentJokes = {};
+        var _viewJokeBox = $($(_view).find(".jokeBox")[0]);
+        var counter = 0;
+
+        $('body').append($(_view));
+        $('.delete').each(function(index, element) {
+          element.remove();
+        });
+        var jokesContainer = $('.jokesContainer');
+
+        function removeJoke() {
+          _currentJokes[$(this).attr("id")].remove();
+        }
+
+        function addJokes(amount) {
+          if(!amount) {
+            amount = 10;
+          }
+          console.log(amount);
+          $.ajax(`http://api.icndb.com/jokes/random/${amount}`)
+            .done(function(result) {
+              console.log(result);
+              result.value.forEach(function(value) {
+                let newBox = _viewJokeBox.clone();
+                newBox.removeClass("delete");
+                newBox.html(newBox.html().replace("__joke__", value.joke));
+                newBox.find(".removeButton").attr("id", counter);
+                newBox.find(".removeButton").click(removeJoke);
+                let newJoke = newBox.appendTo(jokesContainer);
+                _currentJokes[counter++] = newJoke;
+              });
+            });
+        };
+        addJokes(10);
+
+        $("#refresh").click(function() {
+          addJokes(1);
+        });
+
+      });
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>
