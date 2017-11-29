@@ -1,0 +1,46 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <table id="jokes">
+            <tr>
+                <td>__joke__</td>
+                <td><button name="remove">Remove</button></td>
+            </tr>
+        </table>
+        <button id="refresh">Refresh</button>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                let reload = function() {
+                    $.ajax("http://api.icndb.com/jokes/random/3")
+                        .done(function(result) {
+                            let jokes = $("#jokes").children().children();
+                            if (jokes.length > 1) {
+                                for (let i = 1;i <= 3; i += 1) {
+                                    jokes[i].remove();
+                                }
+                            }
+
+                            $(result.value).each(function () {
+                                let template = $("#jokes").find("tr")[0];
+                                $(template).css("display", "");
+                                $(template).after(template.outerHTML.replace("__joke__", this.joke));
+                            });
+                            $($("#jokes").find("tr")[0]).css("display", "none");
+                            $('button[name="remove"]').click(function() {
+                                $(this).parents("tr").remove();
+                                if ($("#jokes").children().children().length == 1) {
+                                    reload();
+                                }
+                            });
+                        });
+                };
+                $("#refresh").click(reload);
+                
+                reload();
+            });
+        </script>
+    </body>
+</html>
