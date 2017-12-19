@@ -44,6 +44,7 @@ public class ApiServlet extends HttpServlet {
 
 		json.append("]");
 
+		response.setContentType("application/json;charset=UTF-8");
 		response.getWriter().print(json.toString());
 	}
 
