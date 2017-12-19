@@ -1,0 +1,47 @@
+<html>
+<body>
+<button id="refresh">Refresh</button>
+<div id="mount"></div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+
+<script id="jokeTpl" type="text/template">
+    <table id="jokes">
+        {{#jokes}}
+            <tr class="joke" data-id="{{id}}">
+                <td>{{joke}}</td>
+                <td>
+                    <button class="remove" data-joke-id="{{id}}">Remove</button>
+                </td>
+            </tr>
+        {{/jokes}}
+    </table>
+</script>
+
+<script>
+$(document).ready(function() {
+    var reload = function() {
+        $.ajax("http://api.icndb.com/jokes/random/5")
+            .done(function(result) {
+                var view = $('#jokeTpl').html();
+                var viewModel = Mustache.to_html(view, {
+                    jokes: result.value,
+                });
+
+                $('#mount').html(viewModel);
+
+                $('.remove').click(function () {
+                    var id = $(this).attr('data-joke-id');
+                    $('tr[data-id="' + id + '"]').remove();
+                });
+            });
+    };
+
+    $("#refresh").click(reload);
+    
+    reload();
+});
+</script>
+</body>
+</html>
